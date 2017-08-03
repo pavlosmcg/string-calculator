@@ -47,5 +47,25 @@ namespace StringCalculator.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Add_ReturnsSumOfNumbers_WhenNewLineIsUsedAsADelimeter()
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add("3\n4");
+
+            Assert.Equal(7, result);
+        }
+
+        [Fact]
+        public void Add_ReturnsSumOfNumbers_WhenDelimetersAreAMixtureOfNewLinesAndCommas()
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add("3\n4,8");
+
+            Assert.Equal(15, result);
+        }
     }
 }
