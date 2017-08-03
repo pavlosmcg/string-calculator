@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using StringCalculator;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator.Tests
 {
@@ -122,6 +123,32 @@ namespace StringCalculator.Tests
             var result = unit.Add(input);
 
             Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("//[;][,]\n1;2,3", 6)]
+        [InlineData("//[?][;][,]\n1?2;3,4", 10)]
+        [InlineData("//[&&&&][,]\n1&&&&2,3", 6)]
+        public void Add_ReturnsSumOfNumbers_WhenThereAreMultipleDelimetersUsingSpecialSyntax(string input, int expected)
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add(input);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Testy(){
+            string numbers = "//[&&&&][,]\n1&&&&2,3";
+            var delimsRegex = new Regex(@"\/\/(.*)");
+            var delimsString = delimsRegex.Match(numbers).Groups[1].ToString();
+            Assert.Equal("[&&&&][,]",delimsString);
+
+            var reg2 = new Regex(@"\[([^\]]*)\]");
+            var thing = reg2.Matches(delimsString);
+            Assert.Equal("&&&&", reg2.Matches(delimsString)[0].Groups[1].ToString());           
+            Assert.Equal(",", reg2.Matches(delimsString)[1].Groups[1].ToString());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator
 {
@@ -10,16 +11,24 @@ namespace StringCalculator
             string input = numbers;
             var delimeters = new char[] {',','\n'};
 
-            // multi char delimeter syntax
-            if (numbers.StartsWith("//[")){
-                int inputIndex = numbers.IndexOf('\n') + 1;
-                input = numbers.Substring(inputIndex);
-                delimeters = new char[] { numbers[3] };
-            }
-            // single char delimeter syntax
-            else if (numbers.StartsWith("//")) {
-                input = numbers.Substring(4);
-                delimeters = new char[] { numbers[2] };
+            var prefixRegex = new Regex(@"\/\/(.*)");
+            var prefix = prefixRegex.Match(numbers);
+
+            if (prefix.Success){
+                input = numbers.Substring(numbers.IndexOf('\n') + 1);
+                var delims = prefix.Groups[1].Value;
+                // Single char delimeter syntax:
+                if (!delims.Contains('[')) {
+                    delimeters = new [] {delims[0]};
+                }
+                // multiple delimeter and multi-char delimeter syntax:
+                else {
+                    var delimsRegex = new Regex(@"\[([^\]]*)\]");
+                    delimeters = delimsRegex.Matches(delims)
+                                            .Cast<Match>()
+                                            .Select(m => (m.Groups[1].Value)[0])
+                                            .ToArray();
+                }
             }
 
             IEnumerable<int> parsed = 
