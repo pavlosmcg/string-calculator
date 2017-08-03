@@ -14,11 +14,24 @@ namespace StringCalculator
                 delimeters = new char[] { numbers[2] };
             }
 
+            int[] parsed;
             if (input.IndexOfAny(delimeters) != -1)
-                return input.Split(delimeters)
-                            .Sum(ParseNumber);
+                 parsed = input.Split(delimeters)
+                               .Select(ParseNumber)
+                               .ToArray();
+            else 
+                parsed = new [] {ParseNumber(input)};
             
-            return ParseNumber(input);
+            var negatives = parsed.Where(i => i < 0);
+            if (negatives.Any())
+                throw new ArgumentOutOfRangeException(
+                    negatives.Aggregate(
+                        "Negatives not allowed:",
+                        (n,str) => $"{str} {n},",
+                        res => res.Substring(0,res.Length-1))
+                );
+
+            return parsed.Sum();
         }
 
         private int ParseNumber(string number){

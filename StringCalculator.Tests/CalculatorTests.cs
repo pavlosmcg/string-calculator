@@ -80,5 +80,25 @@ namespace StringCalculator.Tests
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Add_ThrowsArgumentOutOfRangeException_WhenGivenNegativeNumbers()
+        {
+            var unit = new Calculator();
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => unit.Add("1,-2"));
+        }
+
+        [Fact]
+        public void Add_ThrowsArgumentOutOfRangeExceptionWithMessageContainingAllNegativeNumbers_WhenGivenNegativeNumbers()
+        {
+            var unit = new Calculator();
+
+            var ex = Record.Exception(() => unit.Add("-1,-2,-3,4,5"));
+            
+            Assert.Contains("-1", ex.Message);
+            Assert.Contains("-2", ex.Message);
+            Assert.Contains("-3", ex.Message);
+        }
     }
 }
