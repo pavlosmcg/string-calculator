@@ -110,5 +110,18 @@ namespace StringCalculator.Tests
 
             Assert.Equal(8, result);
         }
+
+        [Theory]
+        [InlineData("//[;;]\n1;;2", 3)]
+        [InlineData("//[???]\n1???2", 3)]
+        [InlineData("//[&&&&]\n1&&&&2", 3)]
+        public void Add_ReturnsSumOfNumbers_WhenDelimetersAreAnyLengthUsingSpecialSyntax(string input, int expected)
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add(input);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
