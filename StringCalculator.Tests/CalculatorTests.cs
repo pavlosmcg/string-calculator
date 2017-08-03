@@ -35,5 +35,17 @@ namespace StringCalculator.Tests
 
             Assert.Equal(7, result);
         }
+
+        [Theory]
+        [InlineData("1,2,3", 6)]
+        [InlineData("5,6,7", 18)]
+        public void Add_ReturnsSumOfAnyNumberOfNumbers(string input, int expected)
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add(input);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

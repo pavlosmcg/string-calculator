@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace StringCalculator
 {
@@ -8,9 +9,8 @@ namespace StringCalculator
             if (!numbers.Contains(","))
                 return ParseNumber(numbers);
 
-            string[] numArray = numbers.Split(',');
-            return ParseNumber(numArray[0]) 
-                 + ParseNumber(numArray[1]);
+            return numbers.Split(',')
+                          .Sum(ParseNumber);
         }
 
         private int ParseNumber(string number){
