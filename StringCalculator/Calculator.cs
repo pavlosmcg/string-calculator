@@ -6,12 +6,19 @@ namespace StringCalculator
     public class Calculator
     {
         public int Add(string numbers){
+            string input = numbers;
             var delimeters = new char[] {',','\n'};
-            if (numbers.IndexOfAny(delimeters) != -1)
-                return numbers.Split(delimeters)
-                              .Sum(ParseNumber);
+
+            if (numbers.StartsWith("//")) {
+                input = numbers.Substring(4);
+                delimeters = new char[] { numbers[2] };
+            }
+
+            if (input.IndexOfAny(delimeters) != -1)
+                return input.Split(delimeters)
+                            .Sum(ParseNumber);
             
-            return ParseNumber(numbers);
+            return ParseNumber(input);
         }
 
         private int ParseNumber(string number){
