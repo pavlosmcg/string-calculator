@@ -31,7 +31,7 @@ namespace StringCalculator
                         res => res.Substring(0,res.Length-1))
                 );
 
-            return parsed.Sum();
+            return parsed.Where(i => i <= 1000).Sum();
         }
 
         private int ParseNumber(string number){

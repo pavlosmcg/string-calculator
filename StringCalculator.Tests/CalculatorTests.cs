@@ -100,5 +100,15 @@ namespace StringCalculator.Tests
             Assert.Contains("-2", ex.Message);
             Assert.Contains("-3", ex.Message);
         }
+
+        [Fact]
+        public void Add_ReturnsSumOfNumbers_IgnoringAnyNumbersBiggerThan1000()
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add("4,4,1066");
+
+            Assert.Equal(8, result);
+        }
     }
 }
