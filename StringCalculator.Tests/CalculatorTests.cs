@@ -26,6 +26,14 @@ namespace StringCalculator.Tests
             Assert.Equal(8, result);
         }
 
-        
+        [Fact]
+        public void Add_ReturnsSum_WhenInputIsTwoNumbers()
+        {
+            var unit = new Calculator();
+
+            var result = unit.Add("3,4");
+
+            Assert.Equal(7, result);
+        }
     }
 }
